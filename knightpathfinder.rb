@@ -6,12 +6,13 @@ POSSIBLE_MOVES = [[ 2, -1], [ 2, 1],  # ꓶ Γ
                   [ 1, -2], [ 1, 2]]  # --| |--
                   
   def self.valid_moves(pos)
-    potential_moves = POSSIBLE_MOVES.map do |row|
-      row.map.with_index do |col, i|
-          col + pos[i]
-      end
+    valid_moves = []
+    cur_x, cur_y = pos
+    POSSIBLE_MOVES.each do |(dx, dy)|
+      new_pos = [cur_x + dx, cur_y + dy]
+      valid_moves << new_pos if new_pos.all? { |coord| coord.between?(0, 7) }
     end
-    potential_moves.select{ |pos| pos.all? { |coord| coord.between?(0, 7) } }
+    valid_moves
   end
 
   attr_reader :start_pos
