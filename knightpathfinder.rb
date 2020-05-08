@@ -25,10 +25,18 @@ POSSIBLE_MOVES = [[ 2, -1], [ 2, 1],  # ꓶ Γ
 
     build_move_tree
   end
+  
+  def find_path(end_pos)
+    end_node = root_node.bfs(end_pos)
+
+    trace_path_back(end_node)
+      .reverse
+      .map(&:value)
+  end
 
   private 
 
-  attr_accessor :considered_positions
+  attr_accessor :considered_positions, :root_node
 
   def build_move_tree
     self.root_node = PolyTreeNode.new(start_pos)
@@ -49,7 +57,19 @@ POSSIBLE_MOVES = [[ 2, -1], [ 2, 1],  # ꓶ Γ
 
   def new_move_positions(pos)
     KnightPathfinder.valid_moves(pos)
-    .reject{ |new_pos| considered_positions.include?(pos) }
+    .reject{ |new_pos| considered_positions.include?(new_pos) }
     .each { |new_pos| considered_positions << new_pos }
   end
+
+  def trace_path_back(end_node)
+    nodes = []
+    current_node = end_node
+    until current_node.nil?
+      nodes << current_node
+      current_node = current_node.parent
+    end
+
+    nodes
+  end
 end
+
