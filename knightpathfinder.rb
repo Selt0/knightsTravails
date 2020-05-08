@@ -1,3 +1,5 @@
+require_relative 'tree_node'
+
 class KnightPathfinder
 
 POSSIBLE_MOVES = [[ 2, -1], [ 2, 1],  # ꓶ Γ
